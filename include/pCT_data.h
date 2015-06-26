@@ -23,17 +23,17 @@
 //#include <array>
 #include <cmath>
 #include <cstdarg>		// va_list, va_arg, va_start, va_end, va_copy
-#include <cstdio>		// printf, sprintf,  
+#include <cstdio>		// printf, sprintf,
 #include <cstdlib>		// rand, srand
 #include <cstring>
-#include <ctime>		// clock(), time() 
+#include <ctime>		// clock(), time()
 #include <fstream>
 #include <functional>	// std::multiplies, std::plus, std::function, std::negate
 #include <initializer_list>
 #include <iostream>
 #include <limits>
 #include <map>
-#include <new>			 
+#include <new>
 #include <numeric>		// inner_product, partial_sum, adjacent_difference, accumulate
 #include <omp.h>		// OpenMP
 #include <sstream>
@@ -44,7 +44,7 @@
 #include <utility> // for std::move
 #include <vector>
 
-//using namespace std::placeholders; 
+//using namespace std::placeholders;
 //using namespace std;
 using std::cout;
 using std::endl;
@@ -87,9 +87,9 @@ struct parameters
 	//	double SSD_V_SIZE_D;
 	//	double T_SHIFT_D;
 	//	double U_SHIFT_D;
-	//	double T_BIN_SIZE_D;	
-	//	double V_BIN_SIZE_D;	
-	//	double ANGULAR_BIN_SIZE_D;	
+	//	double T_BIN_SIZE_D;
+	//	double V_BIN_SIZE_D;
+	//	double ANGULAR_BIN_SIZE_D;
 	//	double RECON_CYL_RADIUS_D;
 	//	double RECON_CYL_HEIGHT_D;
 	//	double IMAGE_WIDTH_D;
@@ -122,7 +122,7 @@ double* voxel_scales;
 // 20573129: 5143282->5143291										// r=1
 // 20648251: 33409572->33409567										// r=2
 // 20648257: 33409582 -> 33409577/33409603//5162071;				// r=2
-// 20764061: 33596956->33596939/33596977							// r=3 
+// 20764061: 33596956->33596939/33596977							// r=3
 
 // CTP_404M
 // 20153778: 5038452-> 5038457										// r=1
@@ -130,80 +130,6 @@ double* voxel_scales;
 ULL NUM_RECON_HISTORIES =105642524;
 ULL PRIME_OFFSET = 26410633;
 /***************************************************************************************************************************************************************************/
-/********************************************************************* Execution and early exit options ********************************************************************/
-/***************************************************************************************************************************************************************************/
-const bool RUN_ON				= true;									// Turn preprocessing on/off (T/F) to enter individual function testing without commenting
-const bool EXIT_AFTER_BINNING	= false;									// Exit program early after completing data read and initial processing
-const bool EXIT_AFTER_HULLS		= false;									// Exit program early after completing hull-detection
-const bool EXIT_AFTER_CUTS		= false;									// Exit program early after completing statistical cuts
-const bool EXIT_AFTER_SINOGRAM	= false;									// Exit program early after completing the construction of the sinogram
-const bool EXIT_AFTER_FBP		= false;									// Exit program early after completing FBP
-/***************************************************************************************************************************************************************************/
-/********************************************************************** Preprocessing option parameters ********************************************************************/
-/***************************************************************************************************************************************************************************/
-const bool DEBUG_TEXT_ON				= true;								// Provide (T) or suppress (F) print statements to console during execution
-const bool SAMPLE_STD_DEV				= true;								// Use sample/population standard deviation (T/F) in statistical cuts (i.e. divisor is N/N-1)
-const bool FBP_ON						= true;								// Turn FBP on (T) or off (F)
-const bool AVG_FILTER_FBP				= false;							// Apply averaging filter to initial iterate (T) or not (F)
-const bool MEDIAN_FILTER_FBP			= false; 
-const bool IMPORT_FILTERED_FBP			= false;
-const bool SC_ON						= false;							// Turn Space Carving on (T) or off (F)
-const bool MSC_ON						= true;								// Turn Modified Space Carving on (T) or off (F)
-const bool SM_ON						= false;							// Turn Space Modeling on (T) or off (F)
-const bool AVG_FILTER_HULL				= true;								// Apply averaging filter to hull (T) or not (F)
-const bool COUNT_0_WEPLS				= false;							// Count the number of histories with WEPL = 0 (T) or not (F)
-const bool REALLOCATE					= false;
-const bool MLP_FILE_EXISTS				= false;
-const bool MLP_ENDPOINTS_FILE_EXISTS	= true;
-bool MODIFY_MLP = true;
-/***************************************************************************************************************************************************************************/
-/***************************************************************** Input/output specifications and options *****************************************************************/
-/***************************************************************************************************************************************************************************/
-
-/***************************************************************************************************************************************************************************/
-/******************************************************************* Path to the input/output directories ******************************************************************/
-/***************************************************************************************************************************************************************************/
-const char INPUT_DIRECTORY[]   = "//home//karbasi//Public//";
-const char OUTPUT_DIRECTORY[]  = "//home//karbasi//Public//";
-/***************************************************************************************************************************************************************************/
-/******************************************** Name of the folder where the input data resides and output data is to be written *********************************************/
-/***************************************************************************************************************************************************************************/
-//const char INPUT_FOLDER[]	   = "merged_data";
-//const char OUTPUT_FOLDER[]	   = "output_data";
-//const char INPUT_FOLDER[]	   = "merged_data";
-//const char OUTPUT_FOLDER[]	   = "merged_data";
-//const char INPUT_FOLDER[]	   = "beam-Sep2014\\bin-Sensitom";
-//const char OUTPUT_FOLDER[]	   = "beam-Sep2014\\bin-Sensitom";
-//const char INPUT_FOLDER[]	   = "beam-Sep2014\\bin-CIRSFordInf";
-//const char OUTPUT_FOLDER[]	   = "beam-Sep2014\\bin-CIRSFordInf";
-//const char INPUT_FOLDER[]	   = "beam-Sep2014\\bin-CIRSFordSup";
-//const char OUTPUT_FOLDER[]	   = "beam-Sep2014\\bin-CIRSFordSup";
-const char INPUT_FOLDER[]	   = "input_CTP404_4M";
-const char OUTPUT_FOLDER[]         = "cuda_test_blake";
-//const char INPUT_FOLDER[]	   = "output_HeadPhantom";
-//const char OUTPUT_FOLDER[]	   = "output_HeadPhantom";
-//const char INPUT_FOLDER[]	   = "PedHead-july";
-//const char OUTPUT_FOLDER[]	   = "PedHead-july";
-//const char INPUT_FOLDER[]	   = "output_ESFPhant";
-//const char OUTPUT_FOLDER[]	   = "output_ESFPhant";
-//const char INPUT_FOLDER[]	   = "input_CTP404";
-//const char OUTPUT_FOLDER[]	   = "input_CTP404";
-//const char INPUT_FOLDER[]	   = "input_water_GeantNONUC";
-//const char OUTPUT_FOLDER[]	   = "input_water_GeantNONUC";
-//const char INPUT_FOLDER[]	   = "input_water_Geant500000";
-//const char OUTPUT_FOLDER[]   = "input_water_Geant500000";
-//const char INPUT_FOLDER[]	   = "waterPhantom";
-//const char OUTPUT_FOLDER[]   = "waterPhantom";
-//const char INPUT_FOLDER[]	   = "catphan";
-//const char OUTPUT_FOLDER[]   = "catphan";
-//const char INPUT_FOLDER[]	   = "DetectData";
-//const char OUTPUT_FOLDER[]   = "DetectData";
-//const char INPUT_FOLDER[]	   = "Rat_Scan2";
-//const char OUTPUT_FOLDER[]   = "Rat_Scan2"; 
-//const char INPUT_FOLDER[]	   = "DetectDataWeplNoisy1";
-//const char OUTPUT_FOLDER[]   = "DetectDataWeplNoisy1";
-//const char INPUT_FOLDER[]	   = "input_noisefloor40";
-//const char OUTPUT_FOLDER[]   = "input_noisefloor40";
 /***************************************************************************************************************************************************************************/
 /**************************************** Prefix of the input data set filename (_trans%d_%03d.txt (or .dat) will be added to this) ****************************************/
 /***************************************************************************************************************************************************************************/
@@ -254,9 +180,9 @@ char INPUT_ITERATE_PATH[256];
 /************************************************************************ Output option parameters *************************************************************************/
 /***************************************************************************************************************************************************************************/
 const bool WRITE_SC_HULL		= true;								// Write SC hull to disk (T) or not (F)
-const bool WRITE_MSC_COUNTS		= true;								// Write MSC counts array to disk (T) or not (F) before performing edge detection 
+const bool WRITE_MSC_COUNTS		= true;								// Write MSC counts array to disk (T) or not (F) before performing edge detection
 const bool WRITE_MSC_HULL		= true;								// Write MSC hull to disk (T) or not (F)
-const bool WRITE_SM_COUNTS		= true;								// Write SM counts array to disk (T) or not (F) before performing edge detection 
+const bool WRITE_SM_COUNTS		= true;								// Write SM counts array to disk (T) or not (F) before performing edge detection
 const bool WRITE_SM_HULL		= true;								// Write SM hull to disk (T) or not (F)
 const bool WRITE_FBP_IMAGE		= true;								// Write FBP image before thresholding to disk (T) or not (F)
 const bool WRITE_FBP_HULL		= true;								// Write FBP hull to disk (T) or not (F)
@@ -270,13 +196,13 @@ const bool WRITE_X				= false;							// Write the reconstructed image to disk (T
 /***************************************************************************************************************************************************************************/
 /*************************************************************** Binned data analysis options and parameters ***************************************************************/
 /***************************************************************************************************************************************************************************/
-enum BIN_ANALYSIS_TYPE { MEANS, COUNTS, MEMBERS };							// Choices for what information about the binned data is desired 
+enum BIN_ANALYSIS_TYPE { MEANS, COUNTS, MEMBERS };							// Choices for what information about the binned data is desired
 enum BIN_ANALYSIS_FOR { ALL_BINS, SPECIFIC_BINS };							// Choices for which bins the desired data should come from
 enum BIN_ORGANIZATION { BY_BIN, BY_HISTORY };								// Binned data is either organized in order by bin or by history w/ bin # specified separately
 enum BIN_ANALYSIS_OF { WEPLS, ANGLES, POSITIONS, BIN_NUMS };						// Choices for which type of binned data is desired
 const bool WRITE_BIN_WEPLS	   = false;								// Write WEPLs for each bin to disk (T) for WEPL distribution analysis, or do not (F)
 const bool WRITE_WEPL_DISTS	   = false;								// Write mean WEPL values to disk (T) or not (F): t bin = columns, v bin = rows, 1 angle per file
-const bool WRITE_SSD_ANGLES    = false;									// Write angles for each proton through entry/exit tracker planes to disk (T), or do not (F) 
+const bool WRITE_SSD_ANGLES    = false;									// Write angles for each proton through entry/exit tracker planes to disk (T), or do not (F)
 /***************************************************************************************************************************************************************************/
 /***************************************************************************************************************************************************************************/
 /************************************************************************* Preprocessing Constants *************************************************************************/
@@ -293,8 +219,8 @@ const bool WRITE_SSD_ANGLES    = false;									// Write angles for each proton 
 /***************************************************************************************************************************************************************************/
 /**************************************** Scanning and detector system	(source distance, tracking plane dimensions) parameters ********************************************/
 /***************************************************************************************************************************************************************************/
-#define SOURCE_RADIUS			260.7								// [cm] Distance  to source/scatterer 
-#define GANTRY_ANGLE_INTERVAL	4.0									// [degrees] Angle between successive projection angles 
+#define SOURCE_RADIUS			260.7								// [cm] Distance  to source/scatterer
+#define GANTRY_ANGLE_INTERVAL	4.0									// [degrees] Angle between successive projection angles
 #define GANTRY_ANGLES			int( 360 / GANTRY_ANGLE_INTERVAL )				// [#] Total number of projection angles
 #define NUM_SCANS				1							// [#] Total number of scans
 #define NUM_FILES				( NUM_SCANS * GANTRY_ANGLES )				// [#] 1 file per gantry angle per translation
@@ -309,16 +235,16 @@ const bool WRITE_SSD_ANGLES    = false;									// Write angles for each proton 
 //#define T_SHIFT				   2.05							// [cm] Amount by which to shift all t coordinates on input
 //#define U_SHIFT				   -0.16						// [cm] Amount by which to shift all u coordinates on input
 #define T_BIN_SIZE				0.1							// [cm] Distance between adjacent bins in t (lateral) direction
-#define T_BINS					int( SSD_T_SIZE / T_BIN_SIZE + 0.5 )			// [#] Number of bins (i.e. quantization levels) for t (lateral) direction 
+#define T_BINS					int( SSD_T_SIZE / T_BIN_SIZE + 0.5 )			// [#] Number of bins (i.e. quantization levels) for t (lateral) direction
 #define V_BIN_SIZE				0.25							// [cm] Distance between adjacent bins in v (vertical) direction
-#define V_BINS					int( SSD_V_SIZE/ V_BIN_SIZE + 0.5 )			// [#] Number of bins (i.e. quantization levels) for v (vertical) direction 
+#define V_BINS					int( SSD_V_SIZE/ V_BIN_SIZE + 0.5 )			// [#] Number of bins (i.e. quantization levels) for v (vertical) direction
 #define ANGULAR_BIN_SIZE		4.0								// [degrees] Angle between adjacent bins in angular (rotation) direction
-#define ANGULAR_BINS			int( 360 / ANGULAR_BIN_SIZE + 0.5 )		// [#] Number of bins (i.e. quantization levels) for path angle 
+#define ANGULAR_BINS			int( 360 / ANGULAR_BIN_SIZE + 0.5 )		// [#] Number of bins (i.e. quantization levels) for path angle
 #define NUM_BINS				( ANGULAR_BINS * T_BINS * V_BINS )		// [#] Total number of bins corresponding to possible 3-tuples [ANGULAR_BIN, T_BIN, V_BIN]
-#define SIGMAS_TO_KEEP			3										// [#] Number of standard deviations from mean to allow before cutting the history 
+#define SIGMAS_TO_KEEP			3										// [#] Number of standard deviations from mean to allow before cutting the history
 enum FILTER_TYPES {RAM_LAK, SHEPP_LOGAN, NONE};							// Define the types of filters that are available for use in FBP
 const FILTER_TYPES				FBP_FILTER = SHEPP_LOGAN;			  	// Specifies which of the defined filters will be used in FBP
-#define RAM_LAK_TAU				2/ROOT_TWO * T_BIN_SIZE					// Defines tau in Ram-Lak filter calculation, estimated from largest frequency in slice 
+#define RAM_LAK_TAU				2/ROOT_TWO * T_BIN_SIZE					// Defines tau in Ram-Lak filter calculation, estimated from largest frequency in slice
 #define FBP_THRESHOLD			0.6										// [cm] RSP threshold used to generate FBP_hull from FBP_image
 const unsigned int FBP_AVG_RADIUS = 1;
 const double FBP_AVG_THRESHOLD = 0.1;
@@ -393,7 +319,7 @@ const int max_path_elements = int(sqrt(double( ROWS^2 + COLUMNS^2 + SLICES^2)));
 //#define A_5						-0.0000972
 
 // Common fractional values of A_i coefficients appearing in polynomial expansions of MLP calculations, precalculating saves time
-#define A_0_OVER_2				A_0/2 
+#define A_0_OVER_2				A_0/2
 #define A_0_OVER_3				A_0/3
 #define A_1_OVER_2				A_1/2
 #define A_1_OVER_3				A_1/3
@@ -439,18 +365,17 @@ const INITIAL_ITERATE			X_K0 = HYBRID;							// Specify which of the HULL_TYPES 
 enum PROJECTION_ALGORITHMS { ART, SART, DROP, BIP, SAP };				// Define valid choices for iterative projection algorithm to use
 const PROJECTION_ALGORITHMS		PROJECTION_ALGORITHM = DROP;			// Specify which of the projection algorithms to use for image reconstruction
 unsigned int reconstruction_histories = 0;
-//#define LAMBDA					0.001								// Relaxation parameter to use in image iterative projection reconstruction algorithms					
+//#define LAMBDA					0.001								// Relaxation parameter to use in image iterative projection reconstruction algorithms
 double ETA                                      = 2.5;
 unsigned int METHOD                             = 1;
 int PSI_SIGN                           = 1;
 double* norm_Ai;
-//#define LAMBDA					0.0001	
-float LAMBDA = 0.001;// Relaxation parameter to use in image iterative projection reconstruction algorithms	
-#define ITERATIONS				12										// # of iterations through the entire set of histories to perform in iterative image reconstruction
+//#define LAMBDA					0.0001
+float LAMBDA = 0.001;// Relaxation parameter to use in image iterative projection reconstruction algorithms
 
-#define BLOCK_SIZE			static_cast<int>(320000)//15000000//3840// # of paths to use for each update: ART = 1, 
-#define BLOCK_SIZE_RECON		static_cast<int>(3200)//3840// # of paths to use for each update: ART = 1, 
-#define DROP_BLOCK_SIZE			static_cast<int>(3200)//3840// # of paths to use for each update: ART = 1, 
+#define BLOCK_SIZE			static_cast<int>(320000)//15000000//3840// # of paths to use for each update: ART = 1,
+#define BLOCK_SIZE_RECON		static_cast<int>(3200)//3840// # of paths to use for each update: ART = 1,
+#define DROP_BLOCK_SIZE			static_cast<int>(3200)//3840// # of paths to use for each update: ART = 1,
 
 #define CONSTANT_CHORD_NORM		pow(VOXEL_WIDTH, 2.0)
 double CONSTANT_LAMBDA_SCALE =	VOXEL_WIDTH * LAMBDA;
@@ -511,8 +436,8 @@ char POLY_3_12_FILENAME[]	= "poly_3_12.bin";							// Prefix of the file contain
 /***************************************************************************************************************************************************************************/
 /************************************************************************* Precalculated Constants *************************************************************************/
 /***************************************************************************************************************************************************************************/
-#define PHI						((1 + sqrt(5.0) ) / 2)					// Positive golden ratio, positive solution of PHI^2-PHI-1 = 0; also PHI = a/b when a/b = (a + b) / a 
-#define PHI_NEGATIVE			((1 - sqrt(5.0) ) / 2)					// Negative golden ratio, negative solution of PHI^2-PHI-1 = 0; 
+#define PHI						((1 + sqrt(5.0) ) / 2)					// Positive golden ratio, positive solution of PHI^2-PHI-1 = 0; also PHI = a/b when a/b = (a + b) / a
+#define PHI_NEGATIVE			((1 - sqrt(5.0) ) / 2)					// Negative golden ratio, negative solution of PHI^2-PHI-1 = 0;
 #define PI_OVER_4				( atan( 1.0 ) )							// 1*pi/4 radians =   pi/4 radians = 45 degrees
 #define PI_OVER_2				( 2 * atan( 1.0 ) )						// 2*pi/4 radians =   pi/2 radians = 90 degrees
 #define THREE_PI_OVER_4			( 3 * atan( 1.0 ) )						// 3*pi/4 radians = 3*pi/4 radians = 135 degrees
@@ -523,15 +448,15 @@ char POLY_3_12_FILENAME[]	= "poly_3_12.bin";							// Prefix of the file contain
 #define TWO_PI					( 8 * atan( 1.0 ) )						// 8*pi/4 radians = 2*pi   radians = 360 degrees = 0 degrees
 #define ANGLE_TO_RADIANS		( PI/180.0 )							// Convertion from angle to radians
 #define RADIANS_TO_ANGLE		( 180.0/PI )							// Convertion from radians to angle
-#define ROOT_TWO				sqrtf(2.0)								// 2^(1/2) = Square root of 2 
+#define ROOT_TWO				sqrtf(2.0)								// 2^(1/2) = Square root of 2
 #define MM_TO_CM				0.1										// 10 [mm] = 1 [cm] => 1 [mm] = 0.1 [cm]
 #define VOXEL_ALLOWANCE			1.0e-7
 #define START					true									// Used as an alias for true for starting timer
 #define STOP					false									// Used as an alias for false for stopping timer
-#define RIGHT					1										// Specifies that moving right corresponds with an increase in x position, used in voxel walk 
-#define LEFT					-1										// Specifies that moving left corresponds with a decrease in x position, used in voxel walk 
-#define UP						1										// Specifies that moving up corresponds with an increase in y/z position, used in voxel walk 
-#define DOWN					-1										// Specifies that moving down corresponds with a decrease in y/z position, used in voxel walk 
+#define RIGHT					1										// Specifies that moving right corresponds with an increase in x position, used in voxel walk
+#define LEFT					-1										// Specifies that moving left corresponds with a decrease in x position, used in voxel walk
+#define UP						1										// Specifies that moving up corresponds with an increase in y/z position, used in voxel walk
+#define DOWN					-1										// Specifies that moving down corresponds with a decrease in y/z position, used in voxel walk
 #define BOOL_FORMAT				"%d"									// Specifies format to use for writing/printing boolean data using {s/sn/f/v/vn}printf statements
 #define CHAR_FORMAT				"%c"									// Specifies format to use for writing/printing character data using {s/sn/f/v/vn}printf statements
 #define INT_FORMAT				"%d"									// Specifies format to use for writing/printing integer data using {s/sn/f/v/vn}printf statements
@@ -561,7 +486,7 @@ int post_cut_histories = 0;
 /***************************************************************************************************************************************************************************/
 std::vector<double> projection_angles;
 float SSD_u_Positions[8];
-float* ut_entry_angle, * uv_entry_angle, * ut_exit_angle, * uv_exit_angle; 
+float* ut_entry_angle, * uv_entry_angle, * ut_exit_angle, * uv_exit_angle;
 int zero_WEPL = 0;
 int zero_WEPL_files = 0;
 /***************************************************************************************************************************************************************************/
@@ -649,21 +574,21 @@ double* sin_table_d, * cos_table_d, * scattering_table_d, * poly_1_2_d, * poly_2
 /***************************************************************************************************************************************************************************/
 /********************************** Declaration of vectors used to accumulate data from histories that have passed currently applied cuts **********************************/
 /***************************************************************************************************************************************************************************/
-std::vector<int>	bin_num_vector;			
-std::vector<int>	gantry_angle_vector;	
-std::vector<float>	WEPL_vector;		
-std::vector<float>	x_entry_vector;		
-std::vector<float>	y_entry_vector;		
-std::vector<float>	z_entry_vector;		
-std::vector<float>	x_exit_vector;			
-std::vector<float>	y_exit_vector;			
-std::vector<float>	z_exit_vector;			
-std::vector<float>	xy_entry_angle_vector;	
-std::vector<float>	xz_entry_angle_vector;	
-std::vector<float>	xy_exit_angle_vector;	
-std::vector<float>	xz_exit_angle_vector;	
+std::vector<int>	bin_num_vector;
+std::vector<int>	gantry_angle_vector;
+std::vector<float>	WEPL_vector;
+std::vector<float>	x_entry_vector;
+std::vector<float>	y_entry_vector;
+std::vector<float>	z_entry_vector;
+std::vector<float>	x_exit_vector;
+std::vector<float>	y_exit_vector;
+std::vector<float>	z_exit_vector;
+std::vector<float>	xy_entry_angle_vector;
+std::vector<float>	xz_entry_angle_vector;
+std::vector<float>	xy_exit_angle_vector;
+std::vector<float>	xz_exit_angle_vector;
 std::vector<unsigned int> first_MLP_voxel_vector;
-//std::vector<float>	relative_ut_angle_vector;	
+//std::vector<float>	relative_ut_angle_vector;
 //std::vector<float>	relative_uv_angle_vector;
 std::vector<int> voxel_x_vector;
 std::vector<int> voxel_y_vector;
@@ -673,20 +598,20 @@ std::vector<int> voxel_z_vector;
 /***************************************************************************************************************************************************************************/
 int*	bin_index;
 float*	bin_WEPL;
-int*	bin_num;			
-int*	gantry_angle;	
-float*	WEPL;		
-float*	x_entry;		
-float*	y_entry;		
-float*	z_entry;		
-float*	x_exit;			
-float*	y_exit;			
-float*	z_exit;			
-float*	xy_entry_angle;	
-float*	xz_entry_angle;	
-float*	xy_exit_angle;	
-float*	xz_exit_angle;	
-float*	relative_ut_angle;	
+int*	bin_num;
+int*	gantry_angle;
+float*	WEPL;
+float*	x_entry;
+float*	y_entry;
+float*	z_entry;
+float*	x_exit;
+float*	y_exit;
+float*	z_exit;
+float*	xy_entry_angle;
+float*	xz_entry_angle;
+float*	xy_exit_angle;
+float*	xz_exit_angle;
+float*	relative_ut_angle;
 float*	relative_uv_angle;
 /***************************************************************************************************************************************************************************/
 /*********************************************************************** Execution timer variables *************************************************************************/
@@ -714,7 +639,7 @@ int MLP_PHANTOM_A_VOXELS = 15, MLP_PHANTOM_B_VOXELS = 25;
 
 double MLP_IMAGE_VOXEL_WIDTH = 0.1;
 double MLP_IMAGE_VOXEL_HEIGHT = 0.1;
-double MLP_IMAGE_VOXEL_THICKNESS = 1.0; 
+double MLP_IMAGE_VOXEL_THICKNESS = 1.0;
 
 double MLP_IMAGE_RECON_CYL_RADIUS = MLP_IMAGE_RECON_CYL_RADIUS_VOXELS * MLP_IMAGE_VOXEL_WIDTH;
 double MLP_IMAGE_RECON_CYL_HEIGHT = MLP_IMAGE_RECON_CYL_HEIGHT_VOXELS * MLP_IMAGE_VOXEL_THICKNESS;
