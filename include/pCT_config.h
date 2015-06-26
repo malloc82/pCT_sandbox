@@ -11,7 +11,7 @@ const bool EXIT_AFTER_BINNING        = false;	// Exit program early after comple
 const bool EXIT_AFTER_HULLS          = false;	// Exit program early after completing hull-detection
 const bool EXIT_AFTER_CUTS           = false;	// Exit program early after completing statistical cuts
 const bool EXIT_AFTER_SINOGRAM       = false;	// Exit program early after completing the construction of the sinogram
-const bool EXIT_AFTER_FBP            = false;	// Exit program early after completing FBP
+const bool EXIT_AFTER_FBP            = true;	// Exit program early after completing FBP
 /********************************************************************** Preprocessing option parameters ********************************************************************/
 /***************************************************************************************************************************************************************************/
 const bool DEBUG_TEXT_ON			 = true; 		// Provide (T) or suppress (F) print statements to console during execution
