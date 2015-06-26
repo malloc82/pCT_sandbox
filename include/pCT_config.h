@@ -11,7 +11,7 @@ const bool EXIT_AFTER_BINNING        = false;	// Exit program early after comple
 const bool EXIT_AFTER_HULLS          = false;	// Exit program early after completing hull-detection
 const bool EXIT_AFTER_CUTS           = false;	// Exit program early after completing statistical cuts
 const bool EXIT_AFTER_SINOGRAM       = false;	// Exit program early after completing the construction of the sinogram
-const bool EXIT_AFTER_FBP            = false;	// Exit program early after completing FBP
+const bool EXIT_AFTER_FBP            = true;	// Exit program early after completing FBP
 /********************************************************************** Preprocessing option parameters ********************************************************************/
 /***************************************************************************************************************************************************************************/
 const bool DEBUG_TEXT_ON			 = true; 		// Provide (T) or suppress (F) print statements to console during execution
@@ -36,13 +36,13 @@ bool MODIFY_MLP = true;
 /***************************************************************************************************************************************************************************/
 /******************************************************************* Path to the input/output directories ******************************************************************/
 /***************************************************************************************************************************************************************************/
-const char INPUT_DIRECTORY[]   = "//home//karbasi//Public//";
-const char OUTPUT_DIRECTORY[]  = "//home//karbasi//Public//";
+const char INPUT_DIRECTORY[]   = "//home//karbasip//";
+const char OUTPUT_DIRECTORY[]  = "//home//karbasip//";
 /***************************************************************************************************************************************************************************/
 /******************************************** Name of the folder where the input data resides and output data is to be written *********************************************/
 /***************************************************************************************************************************************************************************/
 const char INPUT_FOLDER[]  = "input_CTP404_4M";
-const char OUTPUT_FOLDER[] = "cuda_test_blake";
+const char OUTPUT_FOLDER[] = "cuda_test_paniz";
 
 
 #endif /* PCT_CONFIG_H */
