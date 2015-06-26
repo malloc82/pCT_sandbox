@@ -69,11 +69,6 @@ else
   endif
 endif
 
-# Common binaries
-NVCC            ?= $(CUDA_BIN_PATH)/nvcc
-GCC             ?= $(shell echo ${HOME})/sandbox/bin/g++
-GCC_BINDIR      := $(shell echo ${HOME})/sandbox/bin
-
 # Extra user flags
 EXTRA_NVCCFLAGS ?=
 EXTRA_LDFLAGS   ?=
@@ -85,6 +80,31 @@ GENCODE_SM20    := -gencode arch=compute_20,code=sm_20
 GENCODE_SM30    := -gencode arch=compute_30,code=sm_30
 #GENCODE_FLAGS   := $(GENCODE_SM10) $(GENCODE_SM20) $(GENCODE_SM30)
 GENCODE_FLAGS   := $(GENCODE_SM20)
+
+# Common binaries
+NVCC            ?= $(CUDA_BIN_PATH)/nvcc
+GCC             ?= $(shell echo ${HOME})/sandbox/bin/g++
+GCC_BINDIR      := $(shell echo ${HOME})/sandbox/bin
+
+# Common includes and paths for CUDA
+INCLUDES      := -I$(CUDA_INC_PATH) \
+                 -I./include/
+
+EXEC_DIR := bin
+OBJ_DIR  := obj
+SRC_DIR  := src
+
+SRC      := $(SRC_DIR)/pCT_Reconstruction_Data_Segments.cu
+OBJ      := $(patsubst %.cu, $(OBJ_DIR)/%.cu.o, $(notdir $(filter %.cu, $(SRC)))) \
+            $(patsubst %.c,  $(OBJ_DIR)/%.c.o,  $(notdir $(filter %.c, $(SRC))))
+EXEC     := $(EXEC_DIR)/pCT_Reconstruction
+
+# Compile flags
+ifeq ($(OS_SIZE),32)
+      NVCCFLAGS := -m32 -arch=sm_20 -O3 #--compiler-bindir $(GCC_BINDIR)
+else
+      NVCCFLAGS := -m64 -arch=sm_20 -O3 #--compiler-bindir $(GCC_BINDIR)
+endif
 
 # OS-specific build flags
 ifneq ($(DARWIN),) 
@@ -100,53 +120,27 @@ else
   endif
 endif
 
-# OS-architecture specific flags
-ifeq ($(OS_SIZE),32)
-      NVCCFLAGS := -m32 -arch=sm_20 #--compiler-bindir $(GCC_BINDIR)
-else
-      NVCCFLAGS := -m64 -arch=sm_20 #--compiler-bindir $(GCC_BINDIR)
-endif
-
-# Common includes and paths for CUDA
-INCLUDES      := -I$(CUDA_INC_PATH) -I. -I..
-LDFLAGS       += $(LIBPATH_OPENGL)
-
-EXEC_DIR := bin
-OBJ_DIR  := obj
-
-SRC      := pCT_Reconstruction_Data_Segments.cu
-OBJ_CU   := $(patsubst %.cu,$(OBJ_DIR)/%.cu.o,$(notdir $(SRC)))
-# OBJ_C    := $(patsubst %.c,$(OBJ_DIR)/%.c.o,$(notdir $(SRC)))
-OBJ      := $(OBJ_CU) $(OBJ_C)
-EXEC     := $(EXEC_DIR)/pCT_Reconstruction
-
-NVCCFLAGS := -arch=sm_20 -O3
-
 # Target rules
 all: $(EXEC)
 
-# .cu.o: $(SRC)
-# 	$(NVCC) $(NVCCFLAGS) -O3  $(EXTRA_NVCCFLAGS) $(GENCODE_FLAGS) $(INCLUDES) -o $@ -c $<
-
-# pCT_Reconstruction: $(OBJ)
-# 	$(NVCC) -o $@ $+
-#  $(GCC) $(CCFLAGS) $(EXTRA_CCFLAGS) -o $@ $+ $(LDFLAGS) $(EXTRA_LDFLAGS)
-#	mkdir -p ../../bin/$(OSLOWER)/$(TARGET)
-#	cp $@ ../../bin/$(OSLOWER)/$(TARGET)
-
 $(EXEC): makedirectory $(OBJ)
 	$(NVCC) $(OBJ) -o $@
-
-$(OBJ_DIR)/%.cu.o: %.cu
+$(OBJ_DIR)/%.cu.o: $(SRC_DIR)/%.cu
+	$(NVCC) -v $(NVCCFLAGS) $(GENCODE_FLAGS) $(INCLUDES) -o $@ -c $<
+$(OBJ_DIR)/%.c.o: $(SRC_DIR)/%.c
 	$(NVCC) -v $(NVCCFLAGS) $(INCLUDES) -o $@ -c $<
-
-
 makedirectory:
 	mkdir -p $(EXEC_DIR)
 	mkdir -p $(OBJ_DIR)
-
 run: $(EXEC)
 	./$(EXEC)
-
 clean:
 	rm -rf $(OBJ_DIR) $(EXEC_DIR)
+test:
+	echo "test: "
+	$(info OBJ     = $(OBJ))
+	$(info LDFLAGS = $(LDFLAGS))
+	$(info OSUPPER = $(OSUPPER))
+	$(info OSLOWER = $(OSLOWER))
+	$(info OS_ARCH = $(OS_ARCH))
+	$(info OS_SIZE = $(OS_SIZE))
