@@ -316,7 +316,7 @@ void exit_program_if( bool early_exit)
 		timer( STOP, program_start, program_end );
 		puts("Hit enter to stop...");
 		fgets(user_response, sizeof(user_response), stdin);
-		exit(1);
+		exit(0);
 	}
 }
 /***********************************************************************************************************************************************************************************************************************/
