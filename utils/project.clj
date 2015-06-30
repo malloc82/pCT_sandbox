@@ -5,5 +5,6 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure   "1.7.0-RC2"]
                  [org.clojure/tools.cli "0.3.1"]]
+  :jvm-opts ^:replace []
   :aot [utils.core]
   :main utils.core)
